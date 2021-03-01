@@ -5,3 +5,9 @@ ADD COLUMN new_column_name data_type constraint;
 
 ALTER TABLE orders
     ADD CONSTRAINT fk_orders_customers FOREIGN KEY (customer_id) REFERENCES customers (id);
+
+// new column to table
+
+ALTER TABLE table_name
+ADD COLUMN column_name1 data_type constraint,
+ADD COLUMN column_name2 data_type constraint,
