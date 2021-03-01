@@ -9,7 +9,6 @@ module.exports = {
     // package applied for hashing pw
     let hashedPassword = passwordHash.generate(req.body.password);
     const { name, email } = req.body;
-    let email = req.body.email;
     // package applied checking for checking if email valid
     let validEmail = validator.is_email_valid(req.body.email);
     if (validEmail) {
