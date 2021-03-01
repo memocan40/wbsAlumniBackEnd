@@ -1,17 +1,20 @@
 const pool = require("../db_config");
- //test
+let passwordHash = require('password-hash');
 module.exports = {
   newRegister: async (req, res) => {
-    const { name, email, password } = req.body;
+    let hashedPassword = passwordHash.generate(req.body.password);
+    const { name, email} = req.body;
     try {
+
+
       const answerDB = await pool.query(
         "INSERT INTO users (name, email, password) VALUES ( $1, $2, $3)",
-        [name, email, password]
+        [name, email, hashedPassword]
       );
       res.json({
         message:
           "New user with the following values:" +
-          [name, email, password] + "has been created",
+          [name, email, hashedPassword] + "has been created",
         code: 200,
         data: answerDB.rows,
       });
