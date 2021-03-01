@@ -68,7 +68,8 @@ module.exports = {
     }
   },
   updateUser: async (req, res) => {
-    const { picture, name, batch_id,work_status, city, github, final_project, id } = req.params;
+    const{id} = req.params;
+    const { picture, name, batch_id,work_status, city, github, final_project } = req.body;
 
     try {
       const answerDB = await pool.query(
