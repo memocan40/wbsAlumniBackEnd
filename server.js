@@ -16,6 +16,9 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 app.use("/users", userRoutes);
+app.get("/", async (_, res) => {
+    res.send("welcome to our api");
+  });
 
 
 const { PORT } = process.env;
