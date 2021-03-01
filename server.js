@@ -20,6 +20,12 @@ app.get("/", async (_, res) => {
     res.send("welcome to our api");
   });
 
+app.get("/elie", async (_, res) => {
+    res.send("welcome elie");
+  });
+
+
+
 
 const { PORT } = process.env;
 
