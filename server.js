@@ -15,9 +15,9 @@ app.use(cors());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-// app.use("/users", userRoutes);
+app.use("/users", userRoutes);
 
 
-// const { PORT } = process.env;
+const { PORT } = process.env;
 
 app.listen(3000, () => console.log(`Server running on port: 3000 `));
