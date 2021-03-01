@@ -1,9 +1,14 @@
 const pool = require("../db_config");
 let passwordHash = require('password-hash');
+let validator = require("node-email-validation");
+
+
 module.exports = {
   newRegister: async (req, res) => {
     let hashedPassword = passwordHash.generate(req.body.password);
     const { name, email} = req.body;
+    let validEmail = validator.is_email_valid(req.body.email);
+   if(validEmail) {
     try {
 
 
@@ -22,6 +27,10 @@ module.exports = {
       console.log(e);
       res.sendStatus(404);
     }
+   }{
+     console.log('Please provide a valid email');
+   }
+
   },
 
 
