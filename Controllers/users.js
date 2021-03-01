@@ -1,5 +1,5 @@
 const pool = require("../db_config");
-
+ //test
 module.exports = {
   newUser: async (req, res) => {
     const { picture, name, batch_id,work_status, city, github, final_project } = req.body;
