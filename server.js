@@ -5,7 +5,6 @@ const express = require("express");
 const cors = require("cors");
 const bodyParser = require("body-parser");
 
-//const pool = require("./dbconfig");
 
 const userRoutes = require("./Routes/users");
 
