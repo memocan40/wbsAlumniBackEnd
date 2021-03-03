@@ -7,6 +7,7 @@ const bodyParser = require("body-parser");
 
 
 const userRoutes = require("./Routes/users");
+const registerRoutes = require("./Routes/register");
 
 
 const app = express();
@@ -15,9 +16,16 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 app.use("/users", userRoutes);
+app.use("/register", registerRoutes);
 app.get("/", async (_, res) => {
     res.send("welcome to our api");
   });
+
+app.get("/elie", async (_, res) => {
+    res.send("welcome elie");
+  });
+
+
 
 
 const { PORT } = process.env;
