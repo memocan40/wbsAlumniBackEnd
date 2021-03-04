@@ -14,13 +14,12 @@ app.use(session({secret:"123456789", resave:false, saveUninitialized: true}))
 //const pool = require("./dbconfig");
 
 const userRoutes = require("./Routes/users");
-const registerRoutes = require("./Routes/register");
+
 
 
 
 
 app.use("/users", userRoutes);
-app.use("/register", registerRoutes);
 app.get("/", async (_, res) => {
     res.send("welcome to our api");
   });

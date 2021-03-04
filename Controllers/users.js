@@ -1,14 +1,15 @@
 const pool = require("../db_config");
-let passwordHash = require("password-hash");
-let validator = require("node-email-validation");
+const bcrypt = require('bcrypt');
+const saltRounds = 10;
+const validator = require("node-email-validation");
 const nodemailer = require("nodemailer");
 
 module.exports = {
   newUser: async (req, res) => {
-    // package applied for hashing pw
-    let hashedPassword = passwordHash.generate(req.body.password);
-    const { name, email } = req.body;
-    console.log(name, email);
+    const { name, email, password } = req.body;
+    let hashedPassword =await bcrypt.hash(password, 10);
+
+
     // package applied checking for checking if email valid
     let validEmail = validator.is_email_valid(req.body.email);
     if (validEmail) {
@@ -25,12 +26,12 @@ module.exports = {
           code: 200,
           data: answerDB.rows,
         });
-        const {MAIL_PW, MAIL_ACCOUNT} = process.env;
+        const {MAIL_PW, MAIL_ACCOUNT, MAIL_HOST, MAIL_PORT} = process.env;
 
         // create reusable transporter object using the default SMTP transport
         let transporter = nodemailer.createTransport({
-          host: "mail.gmx.net",
-          port: 587,
+          host: MAIL_HOST,
+          port: MAIL_PORT,
           secure: false, // true for 465, false for other ports
           auth: {
             user: MAIL_ACCOUNT,
@@ -42,9 +43,9 @@ module.exports = {
         let info = await transporter.sendMail({
           from:  MAIL_ACCOUNT, // sender address
           to: email, // list of receivers
-          subject: "Hello", // Subject line
-          text: "You have registered successfully!", // plain text body
-          html: "<b>Hello world?</b>", // html body
+          subject: "Successful register at WBS Alumni", // Subject line
+          html: "Dear " + name + "," + "<br/>" + "your account has been successfully initialized!"
+          + "<br />" + "Enjoy our plattform and stay in touch!", // html body
         });
 
         console.log("Message sent: %s", info.messageId);
