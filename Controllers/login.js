@@ -3,11 +3,13 @@ const pool = require("../db_config");
 module.exports = {
   loginUser: async (req, res) => {
     const {name, password } = req.body;
+    req.session.name = name;
     console.log(name, password);
     try {
       const user = await pool.query(
         "SELECT * FROM users WHERE password = $1 AND name = $2", [password, name]
       );
+
       res.json({
         message:
           "User:" +

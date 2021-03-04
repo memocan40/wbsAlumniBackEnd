@@ -1,36 +1,40 @@
+//Importing and initializing dotenv
 const dotenv = require("dotenv");
 dotenv.config();
 
+
+//Importing modules
 const express = require("express");
 const cors = require("cors");
 const bodyParser = require("body-parser");
 const session = require('express-session');
+
+
+//Initializing express, cors and body parser
 const app = express();
 app.use(cors());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
-app.use(session({secret:"123456789", resave:false, saveUninitialized: true}))
-//const pool = require("./dbconfig");
 
+
+//Initializing the session Object
+app.use(session(
+  {secret:"123456789", resave:false, saveUninitialized: true}))
+
+
+//Initializing PORT
+  const { PORT } = process.env || 3000;
+
+
+//Importing the users Route
 const userRoutes = require("./Routes/users");
-const registerRoutes = require("./Routes/register");
-
-
 
 
 app.use("/users", userRoutes);
-app.use("/register", registerRoutes);
 app.get("/", async (_, res) => {
     res.send("welcome to our api");
   });
 
-app.get("/elie", async (_, res) => {
-    res.send("welcome elie");
-  });
 
-
-
-
-const { PORT } = process.env;
-
+//Listen to the port
 app.listen(PORT, () => console.log(`Server running on port: PORT `));
