@@ -87,4 +87,11 @@ module.exports = {
       res.sendStatus(404);
     }
   },
+  loggedInUser: async(req, res) => {
+    if(!req.session.user) {
+      return res.status(401).send();
+    }
+
+    return res.status(200).send('Welcome to the backend');
+  }
 };

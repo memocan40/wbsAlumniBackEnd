@@ -9,6 +9,7 @@ module.exports = {
     // package applied for hashing pw
     let hashedPassword = passwordHash.generate(req.body.password);
     const { name, email } = req.body;
+    console.log(name, email);
     // package applied checking for checking if email valid
     let validEmail = validator.is_email_valid(req.body.email);
     if (validEmail) {
@@ -33,7 +34,7 @@ module.exports = {
           secure: false, // true for 465, false for other ports
           auth: {
             user: 'wbs.alumni@gmx.de',
-            pass: 'Autobahn84.',
+            pass: 'WbsAlumni21.',
           },
         });
 
