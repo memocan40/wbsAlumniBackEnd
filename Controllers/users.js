@@ -1,5 +1,5 @@
 //dependencies for the register
-let passwordHash = require("password-hash");
+let bcrypt = require("bcrypt");
 let validator = require("node-email-validation");
 const nodemailer = require("nodemailer");
 
@@ -8,7 +8,7 @@ const pool = require("../db_config");
 module.exports = {
   newUser:  async (req, res) => {
     // package applied for hashing pw
-    let hashedPassword = passwordHash.generate(req.body.password);
+    let hashedPassword = bcrypt.hash(password, 10);
     const { name, email } = req.body;
     // package applied checking for checking if email valid
     let validEmail = validator.is_email_valid(req.body.email);
