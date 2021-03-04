@@ -21,13 +21,7 @@ app.get("/", async (_, res) => {
     res.send("welcome to our api");
   });
 
-app.get("/elie", async (_, res) => {
-    res.send("welcome elie");
-  });
-
-
-
 
 const { PORT } = process.env;
 
-app.listen(PORT, () => console.log(`Server running on port: PORT `));
+app.listen(PORT || 3000 , () => console.log(`Server running on port: PORT `));
