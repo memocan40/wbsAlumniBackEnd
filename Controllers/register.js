@@ -26,6 +26,7 @@ module.exports = {
           code: 200,
           data: answerDB.rows,
         });
+        const {MAIL_PW, MAIL_ACCOUNT} = process.env;
 
         // create reusable transporter object using the default SMTP transport
         let transporter = nodemailer.createTransport({
@@ -33,14 +34,14 @@ module.exports = {
           port: 587,
           secure: false, // true for 465, false for other ports
           auth: {
-            user: 'wbs.alumni@gmx.de',
-            pass: 'WbsAlumni21.',
+            user: MAIL_ACCOUNT,
+            pass: MAIL_PW,
           },
         });
 
         // send mail with defined transport object
         let info = await transporter.sendMail({
-          from: '"Register Setup" <wbs.alumni@gmx.de>', // sender address
+          from:  MAIL_ACCOUNT, // sender address
           to: email, // list of receivers
           subject: "Hello", // Subject line
           text: "You have registered successfully!", // plain text body
