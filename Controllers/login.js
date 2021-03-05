@@ -1,28 +1,26 @@
 const pool = require("../db_config");
 const bcrypt = require("bcrypt");
-const saltRounds = 10;
 
 module.exports = {
   loginUser: async (req, res) => {
     const { name, password } = req.body;
     let loginError;
 
-    bcrypt.genSalt(saltRounds).then((salt) => {
-      bcrypt.hash(myPlaintextPassword, salt).then((hash) => {
-        console.log(hash);
-      });
-    });
-
+    // db query check if user from form login is in db
     try {
-      const user = await pool.query(
-        "SELECT * FROM users WHERE password = $1 AND name = $2",
-        [password, name]
-      );
-      console.log(user.rows[0].id);
-      // console.log(passwordHash.verify(password, user.rows[0].id)); // true
-      //   console.log(user);
+      const user = await pool.query("SELECT * FROM users WHERE name = $1", [
+        name,
+      ]);
 
-      if (user.rowCount) {
+      //compare hashed pw from db with input mail pw using bcyrpt native compare function
+      let dehashedPassword = await bcrypt
+        .compare(password, user.rows[0].password)
+        .then((result) => {
+          return result;
+        });
+      console.log(dehashedPassword);
+
+      if (user.rowCount && dehashedPassword) {
         res.redirect("/users/dashboard");
       } else {
         loginError = "Credentials do not match!";
