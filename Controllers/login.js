@@ -25,7 +25,7 @@ module.exports = {
         console.log(req.session.userId )
         res.redirect("/users/dashboard");
       } else {
-        res.redirect("/users/login");
+        // res.redirect("/users/login");
         console.log(loginError);
       }
     } catch (e) {
@@ -33,4 +33,9 @@ module.exports = {
       res.sendStatus(404);
     }
   },
+  logoutUser: async (req, res) => {
+    req.session.destroy(function() {
+      res.redirect('/'); // redirect to home
+    })
+  }
 };
