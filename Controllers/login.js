@@ -4,7 +4,7 @@ const bcrypt = require("bcrypt");
 module.exports = {
   loginUser: async (req, res) => {
     const { name, password } = req.body;
-    let loginError;
+    let loginError = "Credentials do not match!";
 
     // db query check if user from form login is in db
     try {
@@ -21,14 +21,15 @@ module.exports = {
       console.log(dehashedPassword);
 
       if (user.rowCount && dehashedPassword) {
+        req.session.userId = user.rows[0].id;
+        console.log(req.session.userId )
         res.redirect("/users/dashboard");
       } else {
-        loginError = "Credentials do not match!";
+        res.redirect("/users/login");
         console.log(loginError);
       }
     } catch (e) {
       console.log(e);
-      console.log("shit");
       res.sendStatus(404);
     }
   },

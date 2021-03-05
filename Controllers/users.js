@@ -60,7 +60,8 @@ module.exports = {
     }
 
   },
-  getUsers: async (_, res) => {
+  getUsers: async (req, res) => {
+    console.log(req.session);
     try {
       const answerDB = await pool.query("SELECT * FROM users");
       res.json({
