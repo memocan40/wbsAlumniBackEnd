@@ -1,25 +1,61 @@
 const pool = require("../db_config");
- //test
+const bcrypt = require('bcrypt');
+const saltRounds = 10;
+const validator = require("node-email-validation");
+const nodemailer = require("nodemailer");
+
 module.exports = {
   newUser: async (req, res) => {
-    const { picture, name, batch_id,work_status, city, github, final_project } = req.body;
-    // express validator; put column names in double quotes !!!;
-    try {
-      const answerDB = await pool.query(
-        "INSERT INTO users (picture, name, batch_id,work_status, city, github, final_project) VALUES ( $1, $2, $3, $4, $5, $6, $7)",
-        [picture, name, batch_id,work_status, city, github, final_project]
-      );
-      res.json({
-        message:
-          "New user with the following values:" +
-          [picture, name, batch_id,work_status, city, github, final_project],
-        code: 200,
-        data: answerDB.rows,
-      });
-    } catch (e) {
-      console.log(e);
-      res.sendStatus(404);
+    const { name, email, password } = req.body;
+    let hashedPassword =await bcrypt.hash(password, 10);
+
+
+    // package applied checking for checking if email valid
+    let validEmail = validator.is_email_valid(req.body.email);
+    if (validEmail) {
+      try {
+        const answerDB = await pool.query(
+          "INSERT INTO users (name, email, password) VALUES ( $1, $2, $3)",
+          [name, email, hashedPassword]
+        );
+        res.json({
+          message:
+            "New user with the following values:" +
+            [name, email, hashedPassword] +
+            "has been created",
+          code: 200,
+          data: answerDB.rows,
+        });
+        const {MAIL_PW, MAIL_ACCOUNT, MAIL_HOST, MAIL_PORT} = process.env;
+
+        // create reusable transporter object using the default SMTP transport
+        let transporter = nodemailer.createTransport({
+          host: MAIL_HOST,
+          port: MAIL_PORT,
+          secure: false, // true for 465, false for other ports
+          auth: {
+            user: MAIL_ACCOUNT,
+            pass: MAIL_PW,
+          },
+        });
+
+        // send mail with defined transport object
+        let info = await transporter.sendMail({
+          from:  MAIL_ACCOUNT, // sender address
+          to: email, // list of receivers
+          subject: "Successful register at WBS Alumni", // Subject line
+          html: "Dear " + name + "," + "<br/>" + "your account has been successfully initialized!"
+          + "<br />" + "Enjoy our plattform and stay in touch!", // html body
+        });
+
+        console.log("Message sent: %s", info.messageId);
+        // Message sent: <b658f8ca-6296-ccf4-8306-87d57a0b4321@example.com>
+      } catch (e) {
+        console.log(e);
+        res.sendStatus(404);
+      }
     }
+
   },
   getUsers: async (_, res) => {
     try {
