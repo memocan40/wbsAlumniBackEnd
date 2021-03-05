@@ -1,10 +1,12 @@
 const dotenv = require("dotenv");
 dotenv.config();
+const pool = require("./db_config");
 
 const express = require("express");
 const cors = require("cors");
 const bodyParser = require("body-parser");
 const session = require('express-session');
+const pgsession = require('connect-pg-simple')(session);
 
 const app = express();
 app.use(cors());
@@ -19,6 +21,10 @@ const { PORT, SESS_ID, SESSION_SECRET } = process.env;
 
 // SESSION middleware
 app.use(session({
+  store: new pgsession({
+    pool : pool,                // Connection pool
+    tableName : 'user_sessions'   //
+  }),
   name: SESS_ID,
   resave: false,
   saveUninitialized: false,

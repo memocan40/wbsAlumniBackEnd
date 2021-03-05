@@ -36,7 +36,7 @@ module.exports = {
   },
   logoutUser: async (req, res) => {
     req.session.destroy(function() {
-      res.redirect('/users/login'); // redirect to login
+      console.log('sessions destroyed') // redirect to login
     })
   }
 };
