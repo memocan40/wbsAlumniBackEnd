@@ -128,6 +128,8 @@ module.exports = {
     }
   },
   loggedInUser: async(req, res) => {
+    //instead of session app
+    // setIntervall date.now - session.creation.time
     console.log("Welcome loggi in!")
   }
 };

@@ -3,13 +3,13 @@ const bcrypt = require("bcrypt");
 
 module.exports = {
   loginUser: async (req, res) => {
-    const { name, password } = req.body;
+    const { email, password } = req.body;
     let loginError = "Credentials do not match!";
 
     // db query check if user from form login is in db
     try {
-      const user = await pool.query("SELECT * FROM users WHERE name = $1", [
-        name,
+      const user = await pool.query("SELECT * FROM users WHERE email = $1", [
+        email
       ]);
 
       //compare hashed pw from db with input mail pw using bcyrpt native compare function
@@ -21,8 +21,9 @@ module.exports = {
       console.log(dehashedPassword);
 
       if (user.rowCount && dehashedPassword) {
+        // session start here
         req.session.userId = user.rows[0].id;
-        console.log(req.session.userId )
+        console.log(req.session )
         res.redirect("/users/dashboard");
       } else {
         // res.redirect("/users/login");
@@ -35,7 +36,7 @@ module.exports = {
   },
   logoutUser: async (req, res) => {
     req.session.destroy(function() {
-      res.redirect('/'); // redirect to home
+      res.redirect('/users/login'); // redirect to login
     })
   }
 };
