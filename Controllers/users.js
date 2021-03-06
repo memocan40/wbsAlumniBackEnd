@@ -1,5 +1,5 @@
 const pool = require("../db_config");
-const bcrypt = require('bcrypt');
+const bcrypt = require("bcrypt");
 const saltRounds = 10;
 const validator = require("node-email-validation");
 const nodemailer = require("nodemailer");
@@ -7,11 +7,14 @@ const nodemailer = require("nodemailer");
 module.exports = {
   newUser: async (req, res) => {
     const { name, email, password } = req.body;
-    let hashedPassword =await bcrypt.hash(password, 10);
 
-
+    // implement hashing input password with bycrypt
+    let hashedPassword = await bcrypt.hash(password, saltRounds)
+    .then(hash => {
+       return hash;
+    });
     // package applied checking for checking if email valid
-    let validEmail = validator.is_email_valid(req.body.email);
+    let validEmail = validator.is_email_valid(email);
     if (validEmail) {
       try {
         const answerDB = await pool.query(
@@ -57,7 +60,8 @@ module.exports = {
     }
 
   },
-  getUsers: async (_, res) => {
+  getUsers: async (req, res) => {
+    console.log(req.session);
     try {
       const answerDB = await pool.query("SELECT * FROM users");
       res.json({
@@ -124,6 +128,8 @@ module.exports = {
     }
   },
   loggedInUser: async(req, res) => {
+    //instead of session app
+    // setIntervall date.now - session.creation.time
     console.log("Welcome loggi in!")
   }
 };
