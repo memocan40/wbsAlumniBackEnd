@@ -9,21 +9,13 @@ const cors = require("cors");
 const bodyParser = require("body-parser");
 const session = require('express-session');
 
-<<<<<<< HEAD
-
-//Initializing express, cors and body parser
-=======
->>>>>>> fea2f09dc3264c85aac5950047c378fdd336a49d
 const app = express();
 app.use(cors());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-<<<<<<< HEAD
-=======
-const userRoutes = require("./Routes/users");
 
->>>>>>> fea2f09dc3264c85aac5950047c378fdd336a49d
+
 
 //Initializing the session Object
 app.use(session(
@@ -39,6 +31,7 @@ const userRoutes = require("./Routes/users");
 
 
 app.use("/users", userRoutes);
+
 app.get("/", async (_, res) => {
     res.send("welcome to our api");
   });
