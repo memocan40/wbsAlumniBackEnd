@@ -4,7 +4,9 @@ dotenv.config();
 const express = require("express");
 const cors = require("cors");
 const bodyParser = require("body-parser");
-const io = require('socket.io');
+
+
+
 
 //io.on('connection', (socket) => {
  // console.log('a user connected');
@@ -12,11 +14,6 @@ const io = require('socket.io');
   //  console.log('user disconnected');
  // });
 //});
-io.on('connection', (socket) => {
-  socket.on('chat message', (msg) => {
-    io.emit('chat message', msg);
-  });
-});
 
 
 const userRoutes = require("./Routes/users");
@@ -31,6 +28,29 @@ app.get("/", async (_, res) => {
     res.send("welcome to our api");
   });
 
+
+
+
+
+
+const http = require('http').Server(app);
+const io = require('socket.io')(http,{
+  cors: {
+    origin: "http://localhost:3000",
+    methods: ["GET", "POST"],
+  },
+});
+io.on('connect', (socket) => {
+    
+
+  socket.on('chat message', msg => {
+    io.emit('chat message', msg);
+    console.log(msg);
+  });
+});
 const { PORT } = process.env || 3000;
+const {CHATSERV}=process.env || 3005;
+
 
 app.listen(PORT, () => console.log(`Server running on port: PORT `));
+http.listen(3005, console.log(`chatserverServer running on port ${PORT}`));
