@@ -25,6 +25,7 @@ module.exports = {
         // session start here
         req.session.userId = user.rows[0].id;
         console.log(req.session )
+        // res.json({session});
         res.redirect("/users/dashboard");
       } else {
         // res.redirect("/users/login");
