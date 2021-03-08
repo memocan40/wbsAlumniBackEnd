@@ -16,15 +16,13 @@ app.use(cors());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-
 const { PORT, SESS_ID, SESSION_SECRET } = process.env;
-
 
 // SESSION middleware
 app.use(session({
   store: new pgsession({
     pool : pool,                // Connection pool
-    tableName : 'user_sessions'   //
+    tableName : 'users_session'   //
   }),
   name: SESS_ID,
   resave: false,
@@ -38,10 +36,6 @@ app.use(session({
 }))
 
 
-//Initializing PORT
-  const { PORT } = process.env || 3000;
-
-
 //Importing the users Route
 const userRoutes = require("./Routes/users");
 
@@ -51,7 +45,6 @@ app.use("/users", userRoutes);
 app.get("/", async (_, res) => {
     res.send("welcome to our api");
   });
-
 
 //Listen to the port
 app.listen(PORT, () => console.log(`Server running on port: PORT `));
