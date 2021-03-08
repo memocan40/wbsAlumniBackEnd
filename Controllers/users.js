@@ -1,3 +1,8 @@
+//dependencies for the register
+let bcrypt = require("bcrypt");
+let validator = require("node-email-validation");
+const nodemailer = require("nodemailer");
+
 const pool = require("../db_config");
 const bcrypt = require("bcrypt");
 const saltRounds = 10;
