@@ -1,3 +1,8 @@
+//dependencies for the register
+let bcrypt = require("bcrypt");
+let validator = require("node-email-validation");
+const nodemailer = require("nodemailer");
+
 const pool = require("../db_config");
 const bcrypt = require("bcrypt");
 const saltRounds = 10;
@@ -5,6 +10,14 @@ const validator = require("node-email-validation");
 const nodemailer = require("nodemailer");
 
 module.exports = {
+<<<<<<< HEAD
+  newUser:  async (req, res) => {
+    // package applied for hashing pw
+    let hashedPassword = bcrypt.hash(password, 10);
+    const { name, email } = req.body;
+    // package applied checking for checking if email valid
+    let validEmail = validator.is_email_valid(req.body.email);
+=======
   newUser: async (req, res) => {
     const { name, email, password } = req.body;
 
@@ -15,6 +28,7 @@ module.exports = {
     });
     // package applied checking for checking if email valid
     let validEmail = validator.is_email_valid(email);
+>>>>>>> ebe13cce82f12a2f274e909e3368090609bc7e36
     if (validEmail) {
       try {
         const answerDB = await pool.query(
@@ -29,6 +43,17 @@ module.exports = {
           code: 200,
           data: answerDB.rows,
         });
+<<<<<<< HEAD
+
+        // create reusable transporter object using the default SMTP transport
+        let transporter = nodemailer.createTransport({
+          host: "mail.gmx.net",
+          port: 587,
+          secure: false, // true for 465, false for other ports
+          auth: {
+            user: 'wbs.alumni@gmx.de',
+            pass: 'Autobahn84.',
+=======
         const {MAIL_PW, MAIL_ACCOUNT, MAIL_HOST, MAIL_PORT} = process.env;
 
         // create reusable transporter object using the default SMTP transport
@@ -39,16 +64,25 @@ module.exports = {
           auth: {
             user: MAIL_ACCOUNT,
             pass: MAIL_PW,
+>>>>>>> ebe13cce82f12a2f274e909e3368090609bc7e36
           },
         });
 
         // send mail with defined transport object
         let info = await transporter.sendMail({
+<<<<<<< HEAD
+          from: '"Register Setup" <wbs.alumni@gmx.de>', // sender address
+          to: email, // list of receivers
+          subject: "Hello", // Subject line
+          text: "You have registered successfully!", // plain text body
+          html: "<b>Hello world?</b>", // html body
+=======
           from:  MAIL_ACCOUNT, // sender address
           to: email, // list of receivers
           subject: "Successful register at WBS Alumni", // Subject line
           html: "Dear " + name + "," + "<br/>" + "your account has been successfully initialized!"
           + "<br />" + "Enjoy our plattform and stay in touch!", // html body
+>>>>>>> ebe13cce82f12a2f274e909e3368090609bc7e36
         });
 
         console.log("Message sent: %s", info.messageId);
@@ -59,9 +93,15 @@ module.exports = {
       }
     }
 
+<<<<<<< HEAD
+  
+},
+  getUsers: async (_, res) => {
+=======
   },
   getUsers: async (req, res) => {
     console.log(req.session);
+>>>>>>> ebe13cce82f12a2f274e909e3368090609bc7e36
     try {
       const answerDB = await pool.query("SELECT * FROM users");
       res.json({
