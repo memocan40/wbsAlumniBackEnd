@@ -16,8 +16,7 @@ const pgsession = require('connect-pg-simple')(session);
 
 //Importing  the user Route
 const userRoutes = require("./Routes/users");
-
-  const app = express();
+const app = express();
 app.use(cors());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
