@@ -10,7 +10,7 @@ router.get("/dashboard", loggedInUser);
 router.post("/register", newUser);
 router.get("/", getUsers);
 router.get("/:id", getUserById);
-router.put("/:id", updateUser);
+router.put("/update/:id", updateUser);
 router.delete("/:id", deleteUser);
 
 
