@@ -22,7 +22,9 @@ const work_status_Routes = require("./Routes/work_status");
 
 
 const app = express();
-app.use(cors());
+app.use(cors({
+  origin: 'https://hidden-shelf-31461.herokuapp.com/'
+}));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
@@ -68,7 +70,7 @@ const io = require('socket.io')(http,{
   },
 });
 io.on('connect', (socket) => {
-    
+
 
   socket.on('chat message', msg => {
     io.emit('chat message', msg);
