@@ -1,22 +1,27 @@
 //Importing and initializing dotenv
 const dotenv = require("dotenv");
 dotenv.config();
-const pool = require("./db_config");
+
 
 
 //Importing modules
+const pool = require("./db_config");
 const express = require("express");
 const cors = require("cors");
 const bodyParser = require("body-parser");
 const session = require('express-session');
 const pgsession = require('connect-pg-simple')(session);
+const multer = require('multer');
+const path = require ('path');
+const { PORT, SESS_ID, SESSION_SECRET } = process.env;
 
-
+ 
 
 
 //Importing  the user Route
 const userRoutes = require("./Routes/users");
 const work_status_Routes = require("./Routes/work_status");
+const { nextTick } = require("process");
 
 
 
@@ -26,7 +31,7 @@ app.use(cors());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-const { PORT, SESS_ID, SESSION_SECRET } = process.env;
+
 
 
 
@@ -49,12 +54,44 @@ app.use(session({
 
 
 
+
+
+const storage = multer.diskStorage({
+  destination: (_,__ , cb) => {
+    cb(null, './uploads')
+  },
+  filename:  (_,file, cb) => {
+    cb(null, file.fieldname + path.extname(file.originalname));
+  },
+});
+ 
+const upload = multer({ storage: storage })
+
+//define static serving
+app.use("/images", express.static("uploads"));
+app.post("/upload-profile-pic", upload.single("profile_pic"), (req,res) => {
+ if(!req.file){
+   res.status(400).send("please send an image");
+   return;
+ }
+ res.send(`<img src="http://localhost:3000/images/profile_pic.jpg"/>`)
+});
+
+
+
 app.use("/users", userRoutes);
 app.use("/work_status", work_status_Routes);
 
 app.get("/", async (_, res) => {
     res.send("welcome to our api");
   });
+
+
+
+
+
+
+
 
 
 
