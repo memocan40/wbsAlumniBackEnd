@@ -1,50 +1,55 @@
 //dependencies for the register
-let bcrypt = require("bcrypt");
-let validator = require("node-email-validation");
+const pool = require("../db_config");
+const bcrypt = require("bcrypt");
+const saltRounds = 10;
+const validator = require("node-email-validation");
 const nodemailer = require("nodemailer");
 
-const pool = require("../db_config");
- //test
 module.exports = {
-  newUser:  async (req, res) => {
-    // package applied for hashing pw
-    let hashedPassword = bcrypt.hash(password, 10);
-    const { name, email } = req.body;
+  newUser: async (req, res) => {
+    const { first_name, email, password } = req.body;
+
+    // implement hashing input password with bycrypt
+    let hashedPassword = await bcrypt.hash(password, saltRounds)
+    .then(hash => {
+       return hash;
+    });
     // package applied checking for checking if email valid
-    let validEmail = validator.is_email_valid(req.body.email);
+    let validEmail = validator.is_email_valid(email);
     if (validEmail) {
       try {
         const answerDB = await pool.query(
-          "INSERT INTO users (name, email, password) VALUES ( $1, $2, $3)",
-          [name, email, hashedPassword]
+          "INSERT INTO users (first_name, email, password) VALUES ( $1, $2, $3)",
+          [first_name, email, hashedPassword]
         );
         res.json({
           message:
             "New user with the following values:" +
-            [name, email, hashedPassword] +
+            [first_name, email, hashedPassword] +
             "has been created",
           code: 200,
           data: answerDB.rows,
         });
+        const {MAIL_PW, MAIL_ACCOUNT, MAIL_HOST, MAIL_PORT} = process.env;
 
         // create reusable transporter object using the default SMTP transport
         let transporter = nodemailer.createTransport({
-          host: "mail.gmx.net",
-          port: 587,
+          host: MAIL_HOST,
+          port: MAIL_PORT,
           secure: false, // true for 465, false for other ports
           auth: {
-            user: 'wbs.alumni@gmx.de',
-            pass: 'Autobahn84.',
+            user: MAIL_ACCOUNT,
+            pass: MAIL_PW,
           },
         });
 
         // send mail with defined transport object
         let info = await transporter.sendMail({
-          from: '"Register Setup" <wbs.alumni@gmx.de>', // sender address
+          from:  MAIL_ACCOUNT, // sender address
           to: email, // list of receivers
-          subject: "Hello", // Subject line
-          text: "You have registered successfully!", // plain text body
-          html: "<b>Hello world?</b>", // html body
+          subject: "Successful register at WBS Alumni", // Subject line
+          html: "Dear " + first_name + "," + "<br/>" + "your account has been successfully initialized!"
+          + "<br />" + "Enjoy our plattform and stay in touch!", // html body
         });
 
         console.log("Message sent: %s", info.messageId);
@@ -55,9 +60,9 @@ module.exports = {
       }
     }
 
-  
-},
-  getUsers: async (_, res) => {
+  },
+  getUsers: async (req, res) => {
+    console.log(req.session);
     try {
       const answerDB = await pool.query("SELECT * FROM users");
       res.json({
@@ -123,4 +128,9 @@ module.exports = {
       res.sendStatus(404);
     }
   },
+  loggedInUser: async(req, res) => {
+    //instead of session app
+    // setIntervall date.now - session.creation.time
+    console.log("Welcome loggi in!")
+  }
 };
