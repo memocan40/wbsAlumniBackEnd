@@ -8,7 +8,7 @@ const nodemailer = require("nodemailer");
 
 module.exports = {
   newUser: async (req, res) => {
-    const { user_name, email, password } = req.body;
+    const { user, email, password } = req.body;
 
     // implement hashing input password with bycrypt
     let hashedPassword = await bcrypt
@@ -21,13 +21,13 @@ module.exports = {
     if (validEmail) {
       try {
         const answerDB = await pool.query(
-          "INSERT INTO users (user_name, email, password) VALUES ( $1, $2, $3)",
-          [user_name, email, hashedPassword]
+          "INSERT INTO users (username, email, password) VALUES ( $1, $2, $3)",
+          [user, email, hashedPassword]
         );
         res.json({
           message:
             "New user with the following values:" +
-            [user_name, email, hashedPassword] +
+            [user, email, hashedPassword] +
             "has been created",
           code: 200,
           data: answerDB.rows,
@@ -52,7 +52,7 @@ module.exports = {
           subject: "Successful register at WBS Alumni", // Subject line
           html:
             "Dear " +
-            user_name +
+            user +
             "," +
             "<br/>" +
             "your account has been successfully initialized!" +
