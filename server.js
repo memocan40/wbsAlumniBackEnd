@@ -16,6 +16,11 @@ const pgsession = require('connect-pg-simple')(session);
 
 //Importing  the user Route
 const userRoutes = require("./Routes/users");
+const work_status_Routes = require("./Routes/work_status");
+
+
+
+
 const app = express();
 app.use(cors());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -45,6 +50,7 @@ app.use(session({
 
 
 app.use("/users", userRoutes);
+app.use("/work_status", work_status_Routes);
 
 app.get("/", async (_, res) => {
     res.send("welcome to our api");
