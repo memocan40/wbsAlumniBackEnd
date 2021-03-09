@@ -5,32 +5,34 @@ const saltRounds = 10;
 const validator = require("node-email-validation");
 const nodemailer = require("nodemailer");
 
+
 module.exports = {
   newUser: async (req, res) => {
-    const { first_name, email, password } = req.body;
+    const { user_name, email, password } = req.body;
 
     // implement hashing input password with bycrypt
-    let hashedPassword = await bcrypt.hash(password, saltRounds)
-    .then(hash => {
-       return hash;
-    });
+    let hashedPassword = await bcrypt
+      .hash(password, saltRounds)
+      .then((hash) => {
+        return hash;
+      });
     // package applied checking for checking if email valid
     let validEmail = validator.is_email_valid(email);
     if (validEmail) {
       try {
         const answerDB = await pool.query(
-          "INSERT INTO users (first_name, email, password) VALUES ( $1, $2, $3)",
-          [first_name, email, hashedPassword]
+          "INSERT INTO users (user_name, email, password) VALUES ( $1, $2, $3)",
+          [user_name, email, hashedPassword]
         );
         res.json({
           message:
             "New user with the following values:" +
-            [first_name, email, hashedPassword] +
+            [user_name, email, hashedPassword] +
             "has been created",
           code: 200,
           data: answerDB.rows,
         });
-        const {MAIL_PW, MAIL_ACCOUNT, MAIL_HOST, MAIL_PORT} = process.env;
+        const { MAIL_PW, MAIL_ACCOUNT, MAIL_HOST, MAIL_PORT } = process.env;
 
         // create reusable transporter object using the default SMTP transport
         let transporter = nodemailer.createTransport({
@@ -45,11 +47,17 @@ module.exports = {
 
         // send mail with defined transport object
         let info = await transporter.sendMail({
-          from:  MAIL_ACCOUNT, // sender address
+          from: MAIL_ACCOUNT, // sender address
           to: email, // list of receivers
           subject: "Successful register at WBS Alumni", // Subject line
-          html: "Dear " + first_name + "," + "<br/>" + "your account has been successfully initialized!"
-          + "<br />" + "Enjoy our plattform and stay in touch!", // html body
+          html:
+            "Dear " +
+            user_name +
+            "," +
+            "<br/>" +
+            "your account has been successfully initialized!" +
+            "<br />" +
+            "Enjoy our plattform and stay in touch!", // html body
         });
 
         console.log("Message sent: %s", info.messageId);
@@ -59,7 +67,6 @@ module.exports = {
         res.sendStatus(404);
       }
     }
-
   },
   getUsers: async (req, res) => {
     console.log(req.session);
@@ -109,13 +116,34 @@ module.exports = {
     }
   },
   updateUser: async (req, res) => {
-    const{id} = req.params;
-    const { picture, name, batch_id,work_status, city, github, final_project } = req.body;
+
+
+
+    const { id } = req.params;
+    const {
+      picture,
+      first_name,
+      last_name,
+      batch,
+      work_status_id,
+      city_id,
+      github,
+      final_project,
+    } = req.body;
 
     try {
       const answerDB = await pool.query(
-        "UPDATE users SET picture = $1, name = $2, batch_id= $3, work_status = $4, city = $5, github = $6, final_project = $7 WHERE id = $8",
-        [picture, name, batch_id,work_status, city, github, final_project, id]
+        "UPDATE users SET picture = $1, first_name = $2, batch= $3, work_status_id = $4, city_id = $5, github = $6, final_project = $7 WHERE id = $8",
+        [
+          picture,
+          first_name,
+          batch,
+          work_status_id,
+          city_id,
+          github,
+          final_project,
+          id,
+        ]
       );
       res.json({
         message: "Update user with id:" + id,
@@ -128,9 +156,9 @@ module.exports = {
       res.sendStatus(404);
     }
   },
-  loggedInUser: async(req, res) => {
+  loggedInUser: async (req, res) => {
     //instead of session app
     // setIntervall date.now - session.creation.time
-    console.log("Welcome loggi in!")
-  }
+    console.log("Welcome loggi in!");
+  },
 };
