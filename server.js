@@ -22,9 +22,7 @@ const work_status_Routes = require("./Routes/work_status");
 
 
 const app = express();
-app.use(cors({
-  origin: 'https://hidden-shelf-31461.herokuapp.com/'
-}));
+app.use(cors({origin: '*'}));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
