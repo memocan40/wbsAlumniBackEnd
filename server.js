@@ -21,7 +21,7 @@ const { PORT, SESS_ID, SESSION_SECRET } = process.env;
 //Routes imports
 const userRoutes = require("./Routes/users");
 const work_status_Routes = require("./Routes/work_status");
-const interests_Route = require("./Routes/interests");
+const interests_Routes = require("./Routes/interests");
 
 
 
