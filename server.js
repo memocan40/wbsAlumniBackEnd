@@ -22,7 +22,7 @@ const interests_Route = require("./Routes/interests");
 
 
 const app = express();
-app.use(cors());
+app.use(cors({origin: '*'}));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
@@ -69,7 +69,7 @@ const io = require('socket.io')(http,{
   },
 });
 io.on('connect', (socket) => {
-    
+
 
   socket.on('chat message', msg => {
     io.emit('chat message', msg);
