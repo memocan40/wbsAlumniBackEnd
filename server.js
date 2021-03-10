@@ -20,14 +20,10 @@ const { PORT, SESS_ID, SESSION_SECRET } = process.env;
 
 //Routes imports
 const userRoutes = require("./Routes/users");
-<<<<<<< HEAD
-const work_status_Route = require("./Routes/work_status");
-const interests_Route = require("./Routes/interests");
-=======
 const work_status_Routes = require("./Routes/work_status");
-const { nextTick } = require("process");
+const interests_Route = require("./Routes/interests");
 
->>>>>>> 3fa24afdad469dbea386a9a3a7e9e2cc3b6a6113
+
 
 
 
@@ -61,13 +57,7 @@ app.use(session({
 
 
 
-<<<<<<< HEAD
-app.use("/users", userRoutes);
-app.use("/work_status", work_status_Route);
-app.use("/interests", interests_Route);
-=======
 //Multer
->>>>>>> 3fa24afdad469dbea386a9a3a7e9e2cc3b6a6113
 
 //create a storage that has a destination and can name files
 const storage = multer.diskStorage({
@@ -150,6 +140,7 @@ const {CHATSERV}=process.env || 3005;
 
 app.use("/users", userRoutes);
 app.use("/work_status", work_status_Routes);
+app.use("/interests", interests_Routes);
 
 app.get("/", async (_, res) => {
     res.send("welcome to our api");
