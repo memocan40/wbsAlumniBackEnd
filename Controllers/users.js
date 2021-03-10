@@ -223,13 +223,13 @@ module.exports = {
   },
   getUserByWork_Status : async (req,res) =>{
 
-    const { work_status } = req.params;
+    const { workstatus } = req.params;
     try {
       const answerDB = await pool.query("SELECT * FROM users WHERE work_status_id = $1", [
-        work_status,
+        workstatus,
       ]);
       res.json({
-        message: "Retrieve users by work status:" + work_status,
+        message: "Retrieve users by work status:" + workstatus,
         code: 200,
         data: answerDB.rows,
       });
