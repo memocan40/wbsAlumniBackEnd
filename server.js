@@ -21,7 +21,6 @@ const { PORT, SESS_ID, SESSION_SECRET } = process.env;
 //Routes imports
 const userRoutes = require("./Routes/users");
 const work_status_Routes = require("./Routes/work_status");
-const { nextTick } = require("process");
 
 
 
@@ -64,41 +63,43 @@ const storage = multer.diskStorage({
     cb(null, './uploads')
   },
   filename:  (_,file, cb) => {
-    cb(null, file.fieldname + path.extname(file.originalname)); // profile_pic.jpeg 
+    cb(null,  file.fieldname + path.extname(file.originalname)); // profile_pic.jpeg 
   },
 
   onError: (err, next) => next(),
 });
 
-const fileFilter = (req, file, cb) => {
-  // checking file extensions if else
-  const fileExt = path.extname(file.originalname).substring(1); // jpeg, png, jpg
-  const arrayOfAcceptedExt = ["jpg", "jpeg","png"];
-  if (!arrayOfAcceptedExt.includes(fileExt)) {
-    req.extensionWrong = true;
-    cb(null, false);
-  }
+// const fileFilter = (req, file, cb) => {
+//   // checking file extensions if else
+//   const fileExt = path.extname(file.originalname).substring(1); // jpeg, png, jpg
+//   const arrayOfAcceptedExt = ["jpg", "jpeg","png"];
+//   if (!arrayOfAcceptedExt.includes(fileExt)) {
+//     req.extensionWrong = true;
+//     cb(null, false);
+//   }
 
-};
+// };
  
-const upload = multer({ storage: storage, fileFilter:fileFilter })
+
+
+const upload = multer({ storage: storage})
 
 //define static serving
 //on images I want you to server all the files that are in uploads
 app.use("/images", express.static("uploads"));
 
 
-app.get("/form", (req, res) =>
-  res.sendFile(path.join(__dirname, "index.html"))
-);
+// app.get("/form", (req, res) =>
+//   res.sendFile(path.join(__dirname, "index.html"))
+// );
 
 
 app.post("/upload-profile-pic", upload.single("profile_pic"), (req,res) => {
-  console.log(" in second middleware");
+    // console.log(" in second middleware");
   
-  if (req.extensionWrong) {
-    res.status(400).send("wrong extension");
-  }
+  // if (req.extensionWrong) {
+  //   res.status(400).send("wrong extension");
+  // }
   
   
   if(!req.file){
