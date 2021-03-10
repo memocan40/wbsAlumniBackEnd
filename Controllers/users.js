@@ -161,4 +161,51 @@ module.exports = {
     // setIntervall date.now - session.creation.time
     console.log("Welcome loggi in!");
   },
+
+  getUserByCity : async (req,res) =>{
+    const { city } = req.params;
+    try {
+      const answerDB = await pool.query("SELECT * FROM users WHERE city = $1", [
+        city,
+      ]);
+      res.json({
+        message: "Retrieve users by city:" + city,
+        code: 200,
+        data: answerDB.rows,
+      });
+    } catch (e) {
+      console.log(e);
+      res.sendStatus(404);
+    }
+  },
+  
+  getUserByBatch : async (req,res) =>{
+    const { batch } = req.params;
+    try {
+      const answerDB = await pool.query("SELECT * FROM users WHERE batch = $1", [
+        batch,
+      ]);
+      res.json({
+        message: "Retrieve users by batch:" + batch,
+        code: 200,
+        data: answerDB.rows,
+      });
+    } catch (e) {
+      console.log(e);
+      res.sendStatus(404);
+    }
+  },
+  
+  getUserByInterests : async (req,res) =>{
+  },
+  
+  getUserByCityByWork_Status : async (req,res) =>{
+  },    
+
+
+
+
+
+
 };
+
