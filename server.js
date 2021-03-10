@@ -16,8 +16,8 @@ const pgsession = require('connect-pg-simple')(session);
 
 //Importing  the user Route
 const userRoutes = require("./Routes/users");
-const work_status_Routes = require("./Routes/work_status");
-
+const work_status_Route = require("./Routes/work_status");
+const interests_Route = require("./Routes/interests");
 
 
 
@@ -50,7 +50,8 @@ app.use(session({
 
 
 app.use("/users", userRoutes);
-app.use("/work_status", work_status_Routes);
+app.use("/work_status", work_status_Route);
+app.use("/interests", interests_Route);
 
 app.get("/", async (_, res) => {
     res.send("welcome to our api");
