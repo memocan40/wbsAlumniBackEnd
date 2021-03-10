@@ -178,7 +178,7 @@ module.exports = {
       res.sendStatus(404);
     }
   },
-  
+
   getUserByBatch : async (req,res) =>{
     const { batch } = req.params;
     try {
@@ -195,12 +195,12 @@ module.exports = {
       res.sendStatus(404);
     }
   },
-  
+
   getUserByInterests : async (req,res) =>{
   },
-  
+
   getUserByCityByWork_Status : async (req,res) =>{
-  },    
+  },
 
 
 

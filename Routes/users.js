@@ -17,7 +17,7 @@ router.delete("/:id", deleteUser);
 //additional endpoints to make
 // router.get("/:city ", getUserByCity);
 // router.get("/workstatus = ", getUserBywork_status);
-router.get("/:batch", getUserByBatch);
+router.get("/batch/:batch", getUserByBatch);
 // router.get("/preference = ", getUserBypreference);
 
 module.exports = router;
