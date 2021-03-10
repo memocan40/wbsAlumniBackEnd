@@ -161,11 +161,10 @@ module.exports = {
     // setIntervall date.now - session.creation.time
     console.log("Welcome loggi in!");
   },
-
   getUserByCity : async (req,res) =>{
     const { city } = req.params;
     try {
-      const answerDB = await pool.query("SELECT * FROM users WHERE city = $1", [
+      const answerDB = await pool.query("SELECT * FROM users WHERE city_id = $1", [
         city,
       ]);
       res.json({
@@ -178,7 +177,6 @@ module.exports = {
       res.sendStatus(404);
     }
   },
-  
   getUserByBatch : async (req,res) =>{
     const { batch } = req.params;
     try {
@@ -195,11 +193,50 @@ module.exports = {
       res.sendStatus(404);
     }
   },
-  
-  getUserByInterests : async (req,res) =>{
+  getUserByInterest : async (req,res) =>{
+    const { interest } = req.params;
+    try {
+
+
+    // to try on this middleware
+
+    // Select * FROM interests
+    // JOIN interests_user on interests.id = interests_user.interests.id
+    // JOIN users on users.id = interests_user.user_id
+    // WHERE interests.name = 'CSS' OR interests.name = 'JS'
+
+
+
+      const answerDB = await pool.query("SELECT * FROM interests WHERE name = $1", [
+        interest,
+      ]);
+      res.json({
+        message: "Retrieve users by interest:" + interest,
+        code: 200,
+        data: answerDB.rows,
+      });
+    } catch (e) {
+      console.log(e);
+      res.sendStatus(404);
+    }
+
   },
-  
-  getUserByCityByWork_Status : async (req,res) =>{
+  getUserByWork_Status : async (req,res) =>{
+
+    const { work_status } = req.params;
+    try {
+      const answerDB = await pool.query("SELECT * FROM users WHERE work_status_id = $1", [
+        work_status,
+      ]);
+      res.json({
+        message: "Retrieve users by work status:" + work_status,
+        code: 200,
+        data: answerDB.rows,
+      });
+    } catch (e) {
+      console.log(e);
+      res.sendStatus(404);
+    }
   },    
 
 
