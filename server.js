@@ -21,14 +21,12 @@ const { PORT, SESS_ID, SESSION_SECRET } = process.env;
 const userRoutes = require("./Routes/users");
 const work_status_Routes = require("./Routes/work_status");
 
-
 //File imports
-
-
+const interests_Routes = require("./Routes/interests");
 
 
 const app = express();
-app.use(cors());
+app.use(cors({origin: '*'}));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
@@ -82,7 +80,7 @@ const io = require('socket.io')(http,{
   },
 });
 io.on('connect', (socket) => {
-    
+
 
   socket.on('chat message', msg => {
     io.emit('chat message', msg);
@@ -97,6 +95,7 @@ const {CHATSERV}=process.env || 3005;
 
 app.use("/users", userRoutes);
 app.use("/work_status", work_status_Routes);
+app.use("/interests", interests_Routes);
 
 app.get("/", async (_, res) => {
     res.send("welcome to our api");
