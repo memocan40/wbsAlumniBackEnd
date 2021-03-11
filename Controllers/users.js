@@ -160,7 +160,6 @@ module.exports = {
 
     console.log("Welcome loggi in!")
   },
-
   updateUserPicture: async (req,res) => {
     const { id } = req.params;
 
@@ -190,14 +189,8 @@ module.exports = {
   console.log(e);
   res.sendStatus(404);
 }
-},
-
-
-};
-  
   },
-  
-    getUserByCity : async (req,res) =>{
+  getUserByCity : async (req,res) =>{
     const { city } = req.params;
     try {
       const answerDB = await pool.query("SELECT * FROM users WHERE city_id = $1", [
@@ -213,8 +206,7 @@ module.exports = {
       res.sendStatus(404);
     }
   },
-  
-    getUserByBatch : async (req,res) =>{
+  getUserByBatch : async (req,res) =>{
     const { batch } = req.params;
     try {
       const answerDB = await pool.query("SELECT * FROM users WHERE batch = $1", [
@@ -230,8 +222,7 @@ module.exports = {
       res.sendStatus(404);
     }
   },
-
-   getUserByInterest : async (req,res) =>{
+  getUserByInterest : async (req,res) =>{
     const { interest } = req.params;
     try {
 
@@ -274,4 +265,3 @@ module.exports = {
     }
   },    
 };
-
