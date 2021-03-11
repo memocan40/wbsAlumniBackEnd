@@ -89,9 +89,9 @@ const upload = multer({ storage: storage})
 app.use("/images", express.static("uploads"));
 
 
-// app.get("/form", (req, res) =>
-//   res.sendFile(path.join(__dirname, "index.html"))
-// );
+app.get("/form", (req, res) =>
+  res.sendFile(path.join(__dirname, "index.html"))
+);
 
 
 app.post("/upload-profile-pic", upload.single("profile_pic"), (req,res) => {
