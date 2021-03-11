@@ -133,7 +133,6 @@ module.exports = {
     // setIntervall date.now - session.creation.time
     console.log("Welcome loggi in!")
   },
-
   updateUserPicture: async (req,res) => {
     const { id } = req.params;
 
@@ -148,15 +147,15 @@ module.exports = {
  }
 
  try {
-  const answerDB = await pool.query(`UPDATE users SET picture = ${req.file.filename} WHERE id = ${id};`, [
-    id,
+  const answerDB = await pool.query(`UPDATE users SET picture = $1  WHERE id = $2;`, [
+    req.file.filename, id
   ]);
 
 
 console.log(req.file);
 
   res.json({
-    image : `http://  localhost:3000/images/${req.file.filename}`,
+    image : `http://localhost:3000/images/${req.file.filename}`,
     data  : answerDB.rows[0],
     code: 200
 
