@@ -7,7 +7,7 @@ const nodemailer = require("nodemailer");
 
 
 module.exports = {
-  
+
   newUser: async (req, res) => {
     const { user, email, password } = req.body;
 
@@ -167,7 +167,7 @@ module.exports = {
     res.status(400).send("wrong extension");
     return;
   }
-  
+
   if(!req.file){
    res.status(400).send("please send an image");
    return;
@@ -184,7 +184,7 @@ module.exports = {
     code: 200
 
   })
- 
+
 } catch (e) {
   console.log(e);
   res.sendStatus(404);
@@ -263,5 +263,5 @@ module.exports = {
       console.log(e);
       res.sendStatus(404);
     }
-  },    
+  },
 };
