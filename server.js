@@ -88,7 +88,7 @@ io.on('connect', (socket) => {
   });
 });
 
-const {CHATSERV}=process.env || 3005;
+const {CHATPORT}=process.env;
 
 
 
@@ -104,4 +104,4 @@ app.get("/", async (_, res) => {
 
 
 app.listen(PORT, () => console.log(`Server running on port: PORT `));
-http.listen(3005, console.log(`chatserverServer running on port ${PORT}`));
+http.listen(CHATPORT, console.log(`chatserverServer running on port ${PORT}`));
