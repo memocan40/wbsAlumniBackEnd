@@ -7,6 +7,7 @@ const nodemailer = require("nodemailer");
 
 
 module.exports = {
+  
   newUser: async (req, res) => {
     const { user, email, password } = req.body;
 
@@ -116,9 +117,6 @@ module.exports = {
     }
   },
   updateUser: async (req, res) => {
-
-
-
     const { id } = req.params;
     const {
       picture,
@@ -159,9 +157,47 @@ module.exports = {
   loggedInUser: async (req, res) => {
     //instead of session app
     // setIntervall date.now - session.creation.time
-    console.log("Welcome loggi in!");
+
+    console.log("Welcome loggi in!")
   },
-  getUserByCity : async (req,res) =>{
+
+  updateUserPicture: async (req,res) => {
+    const { id } = req.params;
+
+  if (req.extensionWrong) {
+    res.status(400).send("wrong extension");
+    return;
+  }
+  
+  if(!req.file){
+   res.status(400).send("please send an image");
+   return;
+ }
+
+ try {
+  const answerDB = await pool.query(`UPDATE users SET picture = $1  WHERE id = $2;`, [
+    req.file.filename, id
+  ]);
+
+  res.json({
+    image : `http://localhost:3000/images/${req.file.filename}`,
+    data  : answerDB.rows[0],
+    code: 200
+
+  })
+ 
+} catch (e) {
+  console.log(e);
+  res.sendStatus(404);
+}
+},
+
+
+};
+  
+  },
+  
+    getUserByCity : async (req,res) =>{
     const { city } = req.params;
     try {
       const answerDB = await pool.query("SELECT * FROM users WHERE city_id = $1", [
@@ -177,7 +213,8 @@ module.exports = {
       res.sendStatus(404);
     }
   },
-  getUserByBatch : async (req,res) =>{
+  
+    getUserByBatch : async (req,res) =>{
     const { batch } = req.params;
     try {
       const answerDB = await pool.query("SELECT * FROM users WHERE batch = $1", [
@@ -193,10 +230,10 @@ module.exports = {
       res.sendStatus(404);
     }
   },
-  getUserByInterest : async (req,res) =>{
+
+   getUserByInterest : async (req,res) =>{
     const { interest } = req.params;
     try {
-
 
     // to try on this middleware
 
@@ -204,8 +241,6 @@ module.exports = {
     // JOIN interests_user on interests.id = interests_user.interests.id
     // JOIN users on users.id = interests_user.user_id
     // WHERE interests.name = 'CSS' OR interests.name = 'JS'
-
-
 
       const answerDB = await pool.query("SELECT * FROM interests WHERE name = $1", [
         interest,
