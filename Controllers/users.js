@@ -189,14 +189,8 @@ module.exports = {
   console.log(e);
   res.sendStatus(404);
 }
-<<<<<<< HEAD
   },
   getUserByCity : async (req,res) =>{
-=======
-
-
-    getUserByCity : async (req,res) =>{
->>>>>>> f6750da7df3a36248306c12dbb39ec2eb6fd2376
     const { city } = req.params;
     try {
       const answerDB = await pool.query("SELECT * FROM users WHERE city_id = $1", [
@@ -212,14 +206,7 @@ module.exports = {
       res.sendStatus(404);
     }
   },
-<<<<<<< HEAD
   getUserByBatch : async (req,res) =>{
-=======
-
-
-    getUserByBatch : async (req,res) =>{
-
->>>>>>> f6750da7df3a36248306c12dbb39ec2eb6fd2376
     const { batch } = req.params;
     try {
       const answerDB = await pool.query("SELECT * FROM users WHERE batch = $1", [
