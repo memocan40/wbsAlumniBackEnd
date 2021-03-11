@@ -20,6 +20,7 @@ const { PORT, SESS_ID, SESSION_SECRET } = process.env;
 //Routes imports
 const userRoutes = require("./Routes/users");
 const work_status_Routes = require("./Routes/work_status");
+const batches_Routes = require("./Routes/batches");
 
 //File imports
 const interests_Routes = require("./Routes/interests");
@@ -96,6 +97,7 @@ const {CHATSERV}=process.env || 3005;
 app.use("/users", userRoutes);
 app.use("/work_status", work_status_Routes);
 app.use("/interests", interests_Routes);
+app.use("/batches", batches_Routes);
 
 app.get("/", async (_, res) => {
     res.send("welcome to our api");
