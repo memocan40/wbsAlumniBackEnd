@@ -132,5 +132,44 @@ module.exports = {
     //instead of session app
     // setIntervall date.now - session.creation.time
     console.log("Welcome loggi in!")
+  },
+
+  updateUserPicture: async (req,res) => {
+    const { id } = req.params;
+
+  if (req.extensionWrong) {
+    res.status(400).send("wrong extension");
+    return;
   }
+  
+  if(!req.file){
+   res.status(400).send("please send an image");
+   return;
+ }
+
+ try {
+  const answerDB = await pool.query(`UPDATE users SET picture = ${req.file.filename} WHERE id = ${id};`, [
+    id,
+  ]);
+
+
+console.log(req.file);
+
+  res.json({
+    image : `http://  localhost:3000/images/${req.file.filename}`,
+    data  : answerDB.rows[0],
+    code: 200
+
+  })
+ 
+} catch (e) {
+  console.log(e);
+  res.sendStatus(404);
+}
+},
+
+
 };
+
+
+
