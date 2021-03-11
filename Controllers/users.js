@@ -30,7 +30,7 @@ module.exports = {
             [user, email, hashedPassword] +
             "has been created",
           code: 200,
-          data: answerDB.rows,
+          data: answerDB.rows[0],
         });
         const { MAIL_PW, MAIL_ACCOUNT, MAIL_HOST, MAIL_PORT } = process.env;
 
