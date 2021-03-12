@@ -23,14 +23,15 @@ module.exports = {
       console.log(dehashedPassword);
 
       if (user.rowCount && dehashedPassword) {
-        res.json({
-          message: "Successful login. Welcome " +  user.rows[0].username,
-          code: 200,
-          data: user.rows[0],
-        });
+        // res.json({
+        //   message: "Successful login. Welcome " +  user.rows[0].username,
+        //   code: 200,
+        //   data: user.rows[0],
+        // });
         // session start here
-        req.session.userId = user.rows[0].id;
+        req.session.userId = user.rows[0].id; 
         console.log(req.session )
+        res.redirect("/users/dashboard");
         // res.json({session});
 
 

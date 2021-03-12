@@ -193,7 +193,7 @@ module.exports = {
   getUserByCity : async (req,res) =>{
     const { city } = req.params;
     try {
-      const answerDB = await pool.query("SELECT * FROM users WHERE city_id = $1", [
+      const answerDB = await pool.query("SELECT * FROM users WHERE city = $1", [
         city,
       ]);
       res.json({
