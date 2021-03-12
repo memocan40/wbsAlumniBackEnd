@@ -123,7 +123,7 @@ module.exports = {
       last_name,
       batch,
       city,
-      interests,
+      interests,  
       work_status,
       github,
       linkedin,
