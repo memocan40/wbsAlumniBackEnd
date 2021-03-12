@@ -119,26 +119,29 @@ module.exports = {
   updateUser: async (req, res) => {
     const { id } = req.params;
     const {
-      picture,
       first_name,
       last_name,
       batch,
-      work_status_id,
-      city_id,
+      city,
+      interests,
+      work_status,
       github,
+      linkedin,
       final_project,
     } = req.body;
 
     try {
       const answerDB = await pool.query(
-        "UPDATE users SET picture = $1, first_name = $2, batch= $3, work_status_id = $4, city_id = $5, github = $6, final_project = $7 WHERE id = $8",
+        "UPDATE users SET first_name = $1, last_name = $2, batch= $3, city = $4, interests = $5, work_status = $6, github = $7, linkedin = $8, final_project = $9 WHERE id = $10",
         [
-          picture,
           first_name,
+          last_name,
           batch,
-          work_status_id,
-          city_id,
+          city,
+          interests,
+          work_status,
           github,
+          linkedin,
           final_project,
           id,
         ]
