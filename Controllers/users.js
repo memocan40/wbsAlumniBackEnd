@@ -251,7 +251,7 @@ module.exports = {
 
     const { workstatus } = req.params;
     try {
-      const answerDB = await pool.query("SELECT * FROM users WHERE work_status_id = $1", [
+      const answerDB = await pool.query("SELECT * FROM users WHERE work_status = $1", [
         workstatus,
       ]);
       res.json({
