@@ -236,7 +236,7 @@ module.exports = {
     // JOIN users on users.id = interests_user.user_id
     // WHERE interests.name = 'CSS' OR interests.name = 'JS'
 
-      const answerDB = await pool.query("SELECT * FROM interests WHERE name = $1", [
+      const answerDB = await pool.query("SELECT * FROM users WHERE interests = $1", [
         interest,
       ]);
       res.json({
