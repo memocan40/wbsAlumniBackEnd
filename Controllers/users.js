@@ -182,7 +182,7 @@ module.exports = {
   ]);
 
   res.json({
-    image : `http://localhost:3000/images/${req.file.filename}`,
+    image : `https://hidden-shelf-31461.herokuapp.com/images/${req.file.filename}`,
     data  : answerDB.rows[0],
     code: 200
 
