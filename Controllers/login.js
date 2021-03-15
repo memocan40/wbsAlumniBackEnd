@@ -23,14 +23,15 @@ module.exports = {
       console.log(dehashedPassword);
 
       if (user.rowCount && dehashedPassword) {
-       
+
         // session start here
-        req.session.userId = user.rows[0].id; 
-        console.log(req.session )
+        req.session.userId = user.rows[0].id;
+        console.log(req.session);
+        console.log(user.rows[0].id);
 
         // res.redirect("/users/dashboard");
         // res.json(req.session);
-        
+
         res.json({
           message: "Successful login. Welcome " +  user.rows[0].username,
           code: 200,
@@ -49,8 +50,12 @@ module.exports = {
     }
   },
   logoutUser: async (req, res) => {
-    req.session.destroy(function() {
-      console.log('sessions destroyed') // redirect to login
+    console.log(req.session);
+    req.session.destroy(function(err) {
+      res.json({
+        message: "Successful logout",
+        code: 200,
+      });
     })
   }
 };
