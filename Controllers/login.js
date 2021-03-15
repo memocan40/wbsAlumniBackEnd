@@ -42,6 +42,12 @@ module.exports = {
       } else {
         // res.redirect("/users/login");
         console.log(loginError);
+        res.json({
+          message: loginError,
+          code: 401,
+          code: 401,
+        });
+
       }
     } catch (e) {
       res.redirect("back");
