@@ -22,12 +22,24 @@ module.exports = {
       [email]
     );
     console.log(notUniqueMail);
+    res.json({
+      message:
+        "Mail" +
+        [notUniqueMail] +
+        "not unique",
+    });
 
     const notUniqueUser = await pool.query(
       "SELECT * FROM users WHERE username = $1 ",
       [user]
     );
     console.log(notUniqueUser);
+    res.json({
+      message:
+        "User" +
+        [notUniqueUser] +
+        "not unique",
+    });
 
     if (validEmail) {
       try {
