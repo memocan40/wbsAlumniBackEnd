@@ -12,7 +12,7 @@ const bodyParser = require("body-parser");
 const session = require('express-session');
 const pgsession = require('connect-pg-simple')(session);
 
-const { PORT, SESS_ID, SESSION_SECRET } = process.env;
+const { PORT,CHATPORT, SESS_ID, SESSION_SECRET } = process.env;
 
 
 
@@ -83,7 +83,7 @@ io.on('connect', (socket) => {
   });
 });
 
-const {CHATSERV}=process.env || 3005;
+
 
 
 
@@ -99,4 +99,4 @@ app.get("/", async (_, res) => {
 
 
 app.listen(PORT, () => console.log(`Server running on port: ${PORT} `));
-// http.listen(3005, console.log(`chatserverServer running on port ${PORT}`));
+http.listen(CHATPORT, console.log(`chatserverServer running on port ${CHATPORT}`));
