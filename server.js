@@ -20,12 +20,14 @@ const { PORT, SESS_ID, SESSION_SECRET } = process.env;
 //Routes imports
 const userRoutes = require("./Routes/users");
 const work_status_Routes = require("./Routes/work_status");
-
-//File imports
+const batches_Routes = require("./Routes/batches");
 const interests_Routes = require("./Routes/interests");
 
 
 const app = express();
+
+
+//cors
 app.use(cors({origin: '*'}));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
@@ -56,8 +58,6 @@ app.use(session({
 
 
 //Multer
-
-
 //define static serving
 //on images I want you to server all the files that are in uploads
 app.use("/images", express.static("uploads"));
@@ -65,12 +65,7 @@ app.use("/images", express.static("uploads"));
 
 
 
-
-
-
 //Socket io
-
-
 //create and connect to chat server(socket.io)
 const http = require('http').Server(app);
 const io = require('socket.io')(http,{
@@ -96,7 +91,7 @@ const {CHATPORT}=process.env;
 app.use("/users", userRoutes);
 app.use("/work_status", work_status_Routes);
 app.use("/interests", interests_Routes);
-
+app.use("/batches", batches_Routes);
 app.get("/", async (_, res) => {
     res.send("welcome to our api");
   });
