@@ -123,16 +123,18 @@ module.exports = {
       last_name,
       batch,
       city,
-      interests,  
+      interests,
       work_status,
       github,
       linkedin,
       final_project,
+      first_login
+
     } = req.body;
 
     try {
       const answerDB = await pool.query(
-        "UPDATE users SET first_name = $1, last_name = $2, batch= $3, city = $4, interests = $5, work_status = $6, github = $7, linkedin = $8, final_project = $9 WHERE id = $10",
+        "UPDATE users SET first_name = $1, last_name = $2, batch= $3, city = $4, interests = $5, work_status = $6, github = $7, linkedin = $8, final_project = $9, first_login = $10 WHERE id = $11",
         [
           first_name,
           last_name,
@@ -143,6 +145,7 @@ module.exports = {
           github,
           linkedin,
           final_project,
+          first_login,
           id,
         ]
       );
