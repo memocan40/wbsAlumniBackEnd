@@ -25,6 +25,8 @@ module.exports = {
           "INSERT INTO users (username, email, password) VALUES ( $1, $2, $3)",
           [user, email, hashedPassword]
         );
+
+
         res.json({
           message:
             "New user with the following values:" +
@@ -65,6 +67,7 @@ module.exports = {
         // Message sent: <b658f8ca-6296-ccf4-8306-87d57a0b4321@example.com>
       } catch (e) {
         console.log(e);
+        console.log(res);
         res.sendStatus(404);
       }
     }
