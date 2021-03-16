@@ -34,10 +34,11 @@ module.exports = {
     //   res.send('Email already exists');
     // }
 
-
-
-
-    if (validEmail && !notUniqueMail && !notUniqueUser ) {
+    if (notUniqueMail) {
+      res.send("Email already exists");
+    } else if (notUniqueUser) {
+      res.send("User already exists");
+    } else {
       try {
         const answerDB = await pool.query(
           "INSERT INTO users (username, email, password) VALUES ( $1, $2, $3)",
@@ -87,10 +88,6 @@ module.exports = {
         console.log(res);
         res.sendStatus(404);
       }
-    }else if (notUniqueMail && !notUniqueUser) {
-      res.send('Email already exists');
-    }else {
-      res.send('User already exists');
     }
   },
   getUsers: async (req, res) => {
