@@ -17,24 +17,27 @@ module.exports = {
       });
     // package applied checking for checking if email valid
     let validEmail = validator.is_email_valid(email);
-    // const notUniqueMail = await pool.query(
-    //   "SELECT * FROM users WHERE email = $1 ",
-    //   [email]
-    // );
-    // // if (notUniqueMail) {
-    // //   res.send('Email already exists');
-    // // }
-
 
     const notUniqueUser = await pool.query(
-      "SELECT * FROM users WHERE username = $1 ",
+      "SELECT * FROM users WHERE username = $1",
       [user]
     );
-    if (notUniqueUser) {
-      res.send('User already exists');
-    }
+    // if (notUniqueUser) {
+    //   res.send('User already exists');
+    // }
 
-    if (validEmail) {
+    const notUniqueMail = await pool.query(
+      "SELECT * FROM users WHERE email = $1",
+      [email]
+    );
+    // if (notUniqueMail) {
+    //   res.send('Email already exists');
+    // }
+
+
+
+
+    if (validEmail && !notUniqueMail && !notUniqueUser ) {
       try {
         const answerDB = await pool.query(
           "INSERT INTO users (username, email, password) VALUES ( $1, $2, $3)",
@@ -84,6 +87,10 @@ module.exports = {
         console.log(res);
         res.sendStatus(404);
       }
+    }else if (notUniqueMail && !notUniqueUser) {
+      res.send('Email already exists');
+    }else {
+      res.send('User already exists');
     }
   },
   getUsers: async (req, res) => {
