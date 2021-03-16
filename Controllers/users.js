@@ -17,13 +17,13 @@ module.exports = {
       });
     // package applied checking for checking if email valid
     let validEmail = validator.is_email_valid(email);
-    const notUniqueMail = await pool.query(
-      "SELECT * FROM users WHERE email = $1 ",
-      [email]
-    );
-    if (notUniqueMail) {
-      res.send('Email already exists');
-    }
+    // const notUniqueMail = await pool.query(
+    //   "SELECT * FROM users WHERE email = $1 ",
+    //   [email]
+    // );
+    // // if (notUniqueMail) {
+    // //   res.send('Email already exists');
+    // // }
 
 
     const notUniqueUser = await pool.query(
