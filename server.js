@@ -14,7 +14,7 @@ const pgsession = require('connect-pg-simple')(session);
 
 const { PORT, SESS_ID, SESSION_SECRET } = process.env;
 
- 
+
 
 
 //Routes imports
@@ -98,5 +98,5 @@ app.get("/", async (_, res) => {
 
 
 
-app.listen(PORT, () => console.log(`Server running on port: PORT `));
-http.listen(3005, console.log(`chatserverServer running on port ${PORT}`));
+app.listen(PORT, () => console.log(`Server running on port: ${PORT} `));
+// http.listen(3005, console.log(`chatserverServer running on port ${PORT}`));
