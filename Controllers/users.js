@@ -21,25 +21,18 @@ module.exports = {
       "SELECT * FROM users WHERE email = $1 ",
       [email]
     );
-    console.log(notUniqueMail);
-    res.json({
-      message:
-        "Mail" +
-        [notUniqueMail] +
-        "not unique",
-    });
+    if (notUniqueMail) {
+      res.send('Email already exists');
+    }
+
 
     const notUniqueUser = await pool.query(
       "SELECT * FROM users WHERE username = $1 ",
       [user]
     );
-    console.log(notUniqueUser);
-    res.json({
-      message:
-        "User" +
-        [notUniqueUser] +
-        "not unique",
-    });
+    if (notUniqueUser) {
+      res.send('User already exists');
+    }
 
     if (validEmail) {
       try {
