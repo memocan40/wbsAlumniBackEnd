@@ -12,7 +12,6 @@
   - [Description](#description)
   - [Technology](#technology)
   - [Database Schema](#database-schema)
-  - [Workflow](#workflow)
   - [API endpoints](#api-endpoints)
   - [Posts](#posts)
   - [Post Response Sample](#post-response-sample)
@@ -42,19 +41,8 @@
 
 
 ## Database Schema
- ![Database](https://res.cloudinary.com/dwovfklgc/image/upload/v1612719938/Screen_Shot_2021-02-07_at_18.45.27_pi5ct9.png)
+ ![Database](https://i.postimg.cc/MHDg8WNw/Untitled-1.png)
 
-
-### Workflow
-* Install the app
-```
-npm install
-```
-
-* Run the app
-```
-npm start
-```
 
 
 
