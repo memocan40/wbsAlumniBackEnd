@@ -67,21 +67,21 @@ app.use("/images", express.static("uploads"));
 
 //Socket io
 //create and connect to chat server(socket.io)
-// const http = require('https').Server(app);
-// const io = require('socket.io')(http,{
-//   cors: {
-//     origin: "https://hidden-shelf-31461.herokuapp.com",
-//     methods: ["GET", "POST"],
-//   },
-// });
-// io.on('connect', (socket) => {
+const http = require('https').Server(app);
+const io = require('socket.io')(http,{
+  cors: {
+    origin: "*",
+    methods: ["GET", "POST"],
+  },
+});
+io.on('connect', (socket) => {
 
 
-//   socket.on('chat message', msg => {
-//     io.emit('chat message', msg);
-//     console.log(msg);
-//   });
-// });
+  socket.on('chat message', msg => {
+    io.emit('chat message', msg);
+    console.log(msg);
+  });
+});
 
 
 
