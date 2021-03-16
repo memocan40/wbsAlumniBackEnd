@@ -5,9 +5,7 @@ const saltRounds = 10;
 const validator = require("node-email-validation");
 const nodemailer = require("nodemailer");
 
-
 module.exports = {
-
   newUser: async (req, res) => {
     const { user, email, password } = req.body;
 
@@ -19,13 +17,29 @@ module.exports = {
       });
     // package applied checking for checking if email valid
     let validEmail = validator.is_email_valid(email);
+    const notUniqueMail = await pool.query(
+      "SELECT * FROM users WHERE email = $1 ",
+      [email]
+    );
+    if (notUniqueMail) {
+      res.send('Email already exists');
+    }
+
+
+    const notUniqueUser = await pool.query(
+      "SELECT * FROM users WHERE username = $1 ",
+      [user]
+    );
+    if (notUniqueUser) {
+      res.send('User already exists');
+    }
+
     if (validEmail) {
       try {
         const answerDB = await pool.query(
           "INSERT INTO users (username, email, password) VALUES ( $1, $2, $3)",
           [user, email, hashedPassword]
         );
-
 
         res.json({
           message:
@@ -131,8 +145,7 @@ module.exports = {
       github,
       linkedin,
       final_project,
-      first_login
-
+      first_login,
     } = req.body;
 
     try {
@@ -167,39 +180,38 @@ module.exports = {
     //instead of session app
     // setIntervall date.now - session.creation.time
 
-    console.log("Welcome loggi in!")
+    console.log("Welcome loggi in!");
   },
-  updateUserPicture: async (req,res) => {
+  updateUserPicture: async (req, res) => {
     const { id } = req.params;
 
-  if (req.extensionWrong) {
-    res.status(400).send("wrong extension");
-    return;
-  }
+    if (req.extensionWrong) {
+      res.status(400).send("wrong extension");
+      return;
+    }
 
-  if(!req.file){
-   res.status(400).send("please send an image");
-   return;
- }
+    if (!req.file) {
+      res.status(400).send("please send an image");
+      return;
+    }
 
- try {
-  const answerDB = await pool.query(`UPDATE users SET picture = $1  WHERE id = $2;`, [
-    req.file.filename, id
-  ]);
+    try {
+      const answerDB = await pool.query(
+        `UPDATE users SET picture = $1  WHERE id = $2;`,
+        [req.file.filename, id]
+      );
 
-  res.json({
-    image : `https://hidden-shelf-31461.herokuapp.com/images/${req.file.filename}`,
-    data  : answerDB.rows[0],
-    code: 200
-
-  })
-
-} catch (e) {
-  console.log(e);
-  res.sendStatus(404);
-}
+      res.json({
+        image: `https://hidden-shelf-31461.herokuapp.com/images/${req.file.filename}`,
+        data: answerDB.rows[0],
+        code: 200,
+      });
+    } catch (e) {
+      console.log(e);
+      res.sendStatus(404);
+    }
   },
-  getUserByCity : async (req,res) =>{
+  getUserByCity: async (req, res) => {
     const { city } = req.params;
     try {
       const answerDB = await pool.query("SELECT * FROM users WHERE city = $1", [
@@ -215,12 +227,13 @@ module.exports = {
       res.sendStatus(404);
     }
   },
-  getUserByBatch : async (req,res) =>{
+  getUserByBatch: async (req, res) => {
     const { batch } = req.params;
     try {
-      const answerDB = await pool.query("SELECT * FROM users WHERE batch = $1", [
-        batch,
-      ]);
+      const answerDB = await pool.query(
+        "SELECT * FROM users WHERE batch = $1",
+        [batch]
+      );
       res.json({
         message: "Retrieve users by batch:" + batch,
         code: 200,
@@ -231,20 +244,20 @@ module.exports = {
       res.sendStatus(404);
     }
   },
-  getUserByInterest : async (req,res) =>{
+  getUserByInterest: async (req, res) => {
     const { interest } = req.params;
     try {
+      // to try on this middleware
 
-    // to try on this middleware
+      // Select * FROM interests
+      // JOIN interests_user on interests.id = interests_user.interests.id
+      // JOIN users on users.id = interests_user.user_id
+      // WHERE interests.name = 'CSS' OR interests.name = 'JS'
 
-    // Select * FROM interests
-    // JOIN interests_user on interests.id = interests_user.interests.id
-    // JOIN users on users.id = interests_user.user_id
-    // WHERE interests.name = 'CSS' OR interests.name = 'JS'
-
-      const answerDB = await pool.query("SELECT * FROM users WHERE interests = $1", [
-        interest,
-      ]);
+      const answerDB = await pool.query(
+        "SELECT * FROM users WHERE interests = $1",
+        [interest]
+      );
       res.json({
         message: "Retrieve users by interest:" + interest,
         code: 200,
@@ -254,15 +267,14 @@ module.exports = {
       console.log(e);
       res.sendStatus(404);
     }
-
   },
-  getUserByWork_Status : async (req,res) =>{
-
+  getUserByWork_Status: async (req, res) => {
     const { workstatus } = req.params;
     try {
-      const answerDB = await pool.query("SELECT * FROM users WHERE work_status = $1", [
-        workstatus,
-      ]);
+      const answerDB = await pool.query(
+        "SELECT * FROM users WHERE work_status = $1",
+        [workstatus]
+      );
       res.json({
         message: "Retrieve users by work status:" + workstatus,
         code: 200,
