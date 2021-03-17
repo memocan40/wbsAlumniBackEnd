@@ -68,8 +68,8 @@ module.exports = {
               "your account has been successfully initialized!" +
               "<br />" +
               "In order to use our plattform you have to verify your acount stay in touch!" +
-              "< br />" +
-              `<a href='https://hidden-shelf-31461.herokuapp.com/users/register/confirm/${answerDB.rows[0].id}'>Verify Email</a>`, // html body
+              "< br />"
+               // html body
           });
 
           console.log("Message sent: %s", info.messageId);
