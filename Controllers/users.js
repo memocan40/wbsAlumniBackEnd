@@ -7,7 +7,12 @@ const nodemailer = require("nodemailer");
 
 module.exports = {
   confirmEmail: async(req, res) => {
-    console.log('email confirmed');
+    try {
+      console.log('email confirmed');
+    }catch (e) {
+      res.send(e);
+    }
+
   },
   newUser: async (req, res) => {
     const { user, email, password } = req.body;
