@@ -11,7 +11,7 @@ router.post("/login", loginUser);
 router.post("/logout", logoutUser);
 router.get("/dashboard", loggedInUser);
 router.post("/register", newUser);
-router.get("/register/confirm", confirmEmail);
+router.post("/register/confirm", confirmEmail);
 router.get("/", getUsers);
 router.get("/:id", getUserById);
 router.put("/update/:id", updateUser);
