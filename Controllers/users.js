@@ -49,7 +49,7 @@ module.exports = {
           let transporter = nodemailer.createTransport({
             host: MAIL_HOST,
             port: MAIL_PORT,
-            secure: false, // true for 465, false for other ports
+            secure: true, // true for 465, false for other ports
             auth: {
               user: MAIL_ACCOUNT,
               pass: MAIL_PW,
