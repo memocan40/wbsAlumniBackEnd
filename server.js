@@ -67,12 +67,12 @@ app.use("/images", express.static("uploads"));
 
 //Socket io
 //create and connect to chat server(socket.io)
-const http = require('https').Server(app);
-const io = require('socket.io')(http,{
-  cors: {
-    origin: "*",
-    methods: ["GET", "POST"],
-  },
+const http = require('http').Server(app);
+const io = require('socket.io')(http, {
+	cors: {
+		origin: 'https://hidden-shelf-31461.herokuapp.com',
+		methods: ['GET', 'POST'],
+	},
 });
 io.on('connect', (socket) => {
 
@@ -98,5 +98,5 @@ app.get("/", async (_, res) => {
 
 
 
-app.listen(PORT, () => console.log(`Server running on port: ${PORT} `));
-http.listen(CHATPORT, console.log(`chatserverServer running on port ${CHATPORT}`));
+http.listen(PORT, () => console.log(`Server running on port: ${PORT} `));
+ //http.listen(CHATPORT, console.log(`chatserverServer running on port ${CHATPORT}`));
