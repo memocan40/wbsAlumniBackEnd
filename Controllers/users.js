@@ -6,6 +6,9 @@ const validator = require("node-email-validation");
 const nodemailer = require("nodemailer");
 
 module.exports = {
+  confirmEmail: async(req, res) => {
+    console.log('email confirmed');
+  },
   newUser: async (req, res) => {
     const { user, email, password } = req.body;
 
@@ -60,7 +63,7 @@ module.exports = {
               "<br />" +
               "In order to use our plattform you have to verify your acount stay in touch!" +
               "< br />" +
-              "<a href='https://hidden-shelf-31461.herokuapp.com/users/register/confirm'>Confirm your email</a>", // html body
+              "<form action='https://hidden-shelf-31461.herokuapp.com/users/register/confirm'><button>Submit</button> </form>", // html body
           });
 
           console.log("Message sent: %s", info.messageId);

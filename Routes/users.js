@@ -3,7 +3,7 @@ const router = express.Router();
 const upload = require("../multer");
 
 
-const {getUsers,newUser, getUserById, updateUser, deleteUser, loggedInUser,getUserByBatch,getUserByCity,getUserByInterest,getUserByWork_Status,updateUserPicture} = require("../Controllers/users");
+const {getUsers,newUser, getUserById, updateUser, confirmEmail, deleteUser, loggedInUser,getUserByBatch,getUserByCity,getUserByInterest,getUserByWork_Status,updateUserPicture} = require("../Controllers/users");
 const {loginUser, logoutUser} = require("../Controllers/login");
 
 
@@ -11,6 +11,7 @@ router.post("/login", loginUser);
 router.post("/logout", logoutUser);
 router.get("/dashboard", loggedInUser);
 router.post("/register", newUser);
+router.post("/register/confirm", confirmEmail);
 router.get("/", getUsers);
 router.get("/:id", getUserById);
 router.put("/update/:id", updateUser);
