@@ -42,14 +42,13 @@ module.exports = {
             code: 200,
             data: answerDB.rows[0],
           });
-          console.log(res);
           const { MAIL_PW, MAIL_ACCOUNT, MAIL_HOST, MAIL_PORT } = process.env;
 
           // create reusable transporter object using the default SMTP transport
           let transporter = nodemailer.createTransport({
             host: MAIL_HOST,
             port: MAIL_PORT,
-            secure: true, // true for 465, false for other ports
+            secure: false, // true for 465, false for other ports
             auth: {
               user: MAIL_ACCOUNT,
               pass: MAIL_PW,
