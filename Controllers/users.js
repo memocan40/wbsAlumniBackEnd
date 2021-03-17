@@ -31,21 +31,19 @@ module.exports = {
           const answerDB = await pool.query(
             "INSERT INTO users (username, email, password) VALUES ( $1, $2, $3)",
             [user, email, hashedPassword]
-          );
+          ).then(res => {
+            let userId = res.rows[0].id;
+            console.log(userId);
+          })
 
-          res.json({
-            message:
-              "New user with the following values:" +
-              [user, email, hashedPassword] +
-              "has been created",
-            code: 200,
-            data: answerDB.rows[0],
-          });
-
-          const jojo = answerDB.rows[0].id;
-
-          console.log(jojo);
-
+          // res.json({
+          //   message:
+          //     "New user with the following values:" +
+          //     [user, email, hashedPassword] +
+          //     "has been created",
+          //   code: 200,
+          //   data: answerDB.rows[0],
+          // });
 
 
           const { MAIL_PW, MAIL_ACCOUNT, MAIL_HOST, MAIL_PORT } = process.env;
