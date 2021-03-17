@@ -98,5 +98,5 @@ app.get("/", async (_, res) => {
 
 
 
-app.listen(PORT, () => console.log(`Server running on port: ${PORT} `));
-http.listen(PORT,()=> console.log(`chatserverServer running on port ${CHATPORT}`));
+http.listen(PORT, () => console.log(`Server running on port: ${PORT} `));
+ //http.listen(CHATPORT, console.log(`chatserverServer running on port ${CHATPORT}`));
