@@ -70,7 +70,7 @@ app.use("/images", express.static("uploads"));
 const http = require('http').Server(app);
 const io = require('socket.io')(http, {
 	cors: {
-		origin: 'https://hidden-shelf-31461.herokuapp.com',
+		origin: '*',
 		methods: ['GET', 'POST'],
 	},
 });
