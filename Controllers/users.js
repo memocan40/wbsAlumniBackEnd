@@ -68,7 +68,7 @@ module.exports = {
               "<br />" +
               "In order to use our plattform you have to verify your acount stay in touch!" +
               "< br />" +
-              "<form action='https://hidden-shelf-31461.herokuapp.com/users/register/confirm'><button>Submit</button> </form>", // html body
+              "<form method='POST' action='https://hidden-shelf-31461.herokuapp.com/users/login'><button>Submit</button> </form>", // html body
           });
 
           console.log("Message sent: %s", info.messageId);
