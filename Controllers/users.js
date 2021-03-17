@@ -42,6 +42,10 @@ module.exports = {
             data: answerDB.rows[0],
           });
 
+          const jojo = answerDB.rows[0].id;
+
+          console.log(jojo);
+
 
 
           const { MAIL_PW, MAIL_ACCOUNT, MAIL_HOST, MAIL_PORT } = process.env;
