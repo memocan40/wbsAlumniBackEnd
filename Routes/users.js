@@ -11,10 +11,10 @@ router.post("/login", loginUser);
 router.post("/logout", logoutUser);
 router.get("/dashboard", loggedInUser);
 router.post("/register", newUser);
-router.post("/register/confirm", confirmEmail);
 router.get("/", getUsers);
 router.get("/:id", getUserById);
 router.put("/update/:id", updateUser);
+router.get("/register/confirm/:id", confirmEmail);
 router.delete("/:id", deleteUser);
 router.post("/upload-profile-pic/:id", upload.single("profile_pic"),updateUserPicture );
 
