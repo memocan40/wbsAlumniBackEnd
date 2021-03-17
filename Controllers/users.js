@@ -41,6 +41,7 @@ module.exports = {
             code: 200,
             data: answerDB.rows[0],
           });
+          console.log(res);
           const { MAIL_PW, MAIL_ACCOUNT, MAIL_HOST, MAIL_PORT } = process.env;
 
           // create reusable transporter object using the default SMTP transport
