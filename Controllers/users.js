@@ -6,6 +6,14 @@ const validator = require("node-email-validation");
 const nodemailer = require("nodemailer");
 
 module.exports = {
+  confirmEmail: async(req, res) => {
+    try {
+      console.log('email confirmed');
+    }catch (e) {
+      res.send(e);
+    }
+
+  },
   newUser: async (req, res) => {
     const { user, email, password } = req.body;
 
@@ -18,77 +26,64 @@ module.exports = {
     // package applied checking for checking if email valid
     let validEmail = validator.is_email_valid(email);
 
-    const notUniqueUser = await pool.query(
-      "SELECT * FROM users WHERE username = $1",
-      [user]
-    );
-    // if (notUniqueUser) {
-    //   res.send('User already exists');
-    // }
+      if(validEmail) {
+        try {
+          const answerDB = await pool.query(
+            "INSERT INTO users (username, email, password) VALUES ( $1, $2, $3)",
+            [user, email, hashedPassword]
+          );
 
-    const notUniqueMail = await pool.query(
-      "SELECT * FROM users WHERE email = $1",
-      [email]
-    );
-    // if (notUniqueMail) {
-    //   res.send('Email already exists');
-    // }
+          res.json({
+            message:
+              "New user with the following values:" +
+              [user, email, hashedPassword] +
+              "has been created",
+            code: 200,
+            data: answerDB.rows[0],
+          });
+          const { MAIL_PW, MAIL_ACCOUNT, MAIL_HOST, MAIL_PORT } = process.env;
 
-    if (notUniqueMail) {
-      res.send("Email already exists");
-    } else if (notUniqueUser) {
-      res.send("User already exists");
-    } else {
-      try {
-        const answerDB = await pool.query(
-          "INSERT INTO users (username, email, password) VALUES ( $1, $2, $3)",
-          [user, email, hashedPassword]
-        );
+          // create reusable transporter object using the default SMTP transport
+          let transporter = nodemailer.createTransport({
+            host: MAIL_HOST,
+            port: MAIL_PORT,
+            secure: false, // true for 465, false for other ports
+            auth: {
+              user: MAIL_ACCOUNT,
+              pass: MAIL_PW,
+            },
+          });
 
-        res.json({
-          message:
-            "New user with the following values:" +
-            [user, email, hashedPassword] +
-            "has been created",
-          code: 200,
-          data: answerDB.rows[0],
-        });
-        const { MAIL_PW, MAIL_ACCOUNT, MAIL_HOST, MAIL_PORT } = process.env;
+          // send mail with defined transport object
+          let info = await transporter.sendMail({
+            from: MAIL_ACCOUNT, // sender address
+            to: email, // list of receivers
+            subject: "Successful register at WBS Alumni", // Subject line
+            html:
+              "Dear " +
+              user +
+              "," +
+              "<br/>" +
+              "your account has been successfully initialized!" +
+              "<br />" +
+              "In order to use our plattform you have to verify your acount stay in touch!" +
+              "< br />" +
+              "<form action='https://hidden-shelf-31461.herokuapp.com/users/register/confirm'><button>Submit</button> </form>", // html body
+          });
 
-        // create reusable transporter object using the default SMTP transport
-        let transporter = nodemailer.createTransport({
-          host: MAIL_HOST,
-          port: MAIL_PORT,
-          secure: false, // true for 465, false for other ports
-          auth: {
-            user: MAIL_ACCOUNT,
-            pass: MAIL_PW,
-          },
-        });
+          console.log("Message sent: %s", info.messageId);
+          // Message sent: <b658f8ca-6296-ccf4-8306-87d57a0b4321@example.com>
+        } catch (e) {
 
-        // send mail with defined transport object
-        let info = await transporter.sendMail({
-          from: MAIL_ACCOUNT, // sender address
-          to: email, // list of receivers
-          subject: "Successful register at WBS Alumni", // Subject line
-          html:
-            "Dear " +
-            user +
-            "," +
-            "<br/>" +
-            "your account has been successfully initialized!" +
-            "<br />" +
-            "Enjoy our plattform and stay in touch!", // html body
-        });
+          console.log(res);
 
-        console.log("Message sent: %s", info.messageId);
-        // Message sent: <b658f8ca-6296-ccf4-8306-87d57a0b4321@example.com>
-      } catch (e) {
-        console.log(e);
-        console.log(res);
-        res.sendStatus(404);
+          res.send(e);
+
+        }
+      }else {
+        res.send(e);
       }
-    }
+
   },
   getUsers: async (req, res) => {
     console.log(req.session);
