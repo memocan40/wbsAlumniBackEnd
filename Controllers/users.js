@@ -40,13 +40,6 @@ module.exports = {
               "has been created",
             code: 200,
             data: answerDB.rows[0],
-          }).then( () => {
-            const newUser = await pool.query(
-              "SELECT * FROM USER WHERE email = $1", [
-                email
-              ]
-              );
-              return newUser;
           });
 
 
@@ -78,7 +71,7 @@ module.exports = {
               "<br />" +
               "In order to use our plattform you have to verify your acount stay in touch!" +
               "< br />" +
-              `<a href='https://hidden-shelf-31461.herokuapp.com/users/register/confirm/${newUser.id}'>Verify<a/>`, // html body
+              `<a href='https://hidden-shelf-31461.herokuapp.com/users/register/confirm/'>Verify<a/>`, // html body
           });
 
           console.log("Message sent: %s", info.messageId);
