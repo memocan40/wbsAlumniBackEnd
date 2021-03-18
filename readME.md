@@ -29,14 +29,9 @@
 - [Expressjs](https://expressjs.com/en/5x/api.html)
 - [Socketio](https://socket.io/)
 - [PostgresSQL](https://www.elephantsql.com/)
-- [SQL](https://www.w3schools.com/SQL/default.asp)
 - [Deployed on Heroku](https://hidden-shelf-31461.herokuapp.com/)
 
-<> (Do we want to use Travis and Mocha ?)
 
-- [Test platform travis.yml](https://github.com/travis-ci/travis-yml)/ [travis.yml](https://docs.travis-ci.com/user/tutorial/)
-- [Test framework mocha](https://mochajs.org/)
-- [Assertion Libary chai](https://www.chaijs.com/)
 
 
 
@@ -49,25 +44,14 @@
 ### API endpoints
 
 Update user
-
 <br/>
 ```
 https://hidden-shelf-31461.herokuapp.com/users/update/:id
-
-keys
-
-first_name
-last_name
-batch
-city
-work_status
-github
-linkedin
-picture
-
-
 ```
 <br/>
+
+
+
 
 Post filtered by id 
 <br/>
