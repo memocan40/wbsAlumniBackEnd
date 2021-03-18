@@ -31,16 +31,21 @@ module.exports = {
           const answerDB = await pool.query(
             "INSERT INTO users (username, email, password) VALUES ( $1, $2, $3)",
             [user, email, hashedPassword]
-          );
+          ).then(res => {
+            let userId = res.rows[0].id;
+            console.log(userId);
+          })
 
-          res.json({
-            message:
-              "New user with the following values:" +
-              [user, email, hashedPassword] +
-              "has been created",
-            code: 200,
-            data: answerDB.rows[0],
-          });
+          // res.json({
+          //   message:
+          //     "New user with the following values:" +
+          //     [user, email, hashedPassword] +
+          //     "has been created",
+          //   code: 200,
+          //   data: answerDB.rows[0],
+          // });
+
+
           const { MAIL_PW, MAIL_ACCOUNT, MAIL_HOST, MAIL_PORT } = process.env;
 
           // create reusable transporter object using the default SMTP transport
@@ -68,7 +73,7 @@ module.exports = {
               "<br />" +
               "In order to use our plattform you have to verify your acount stay in touch!" +
               "< br />" +
-              "<form method='POST' action='https://hidden-shelf-31461.herokuapp.com/users/login'><button>Submit</button> </form>", // html body
+              `<a href='https://hidden-shelf-31461.herokuapp.com/users/register/confirm/'>Verify<a/>`, // html body
           });
 
           console.log("Message sent: %s", info.messageId);
