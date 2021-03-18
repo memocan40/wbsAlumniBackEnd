@@ -13,11 +13,7 @@
   - [Technology](#technology)
   - [Database Schema](#database-schema)
   - [API endpoints](#api-endpoints)
-  - [Posts](#posts)
-  - [Post Response Sample](#post-response-sample)
-  - [Users](#users)
-  - [User Response Sample](#user-response-sample)
-  - [Resources](#resources)
+
 
 
 ## Description
@@ -41,46 +37,96 @@
 
 
 
-### API endpoints
+## API endpoints
 
-Update user
+
+
+
+```
+GET All users
+<br/>
+```
+https://hidden-shelf-31461.herokuapp.com/users
+```
+<br/>
+
+GET user by id
+<br/>
+```
+https://hidden-shelf-31461.herokuapp.com/users/:id
+```
+<br/>
+
+
+DELETE user by id
+<br/>
+```
+https://hidden-shelf-31461.herokuapp.com/users/delete/:id
+```
+<br/>
+
+
+UPDATE user by id
 <br/>
 ```
 https://hidden-shelf-31461.herokuapp.com/users/update/:id
-
 ```
 <br/>
 
 
 
-
-Post filtered by id 
+GET all Workstatus
 <br/>
 ```
-GET /posts/:id
-```
-<br/>
-
-All posts ordered by rating
-<br/>
-```
-GET /posts?sort=rating:desc
+https://hidden-shelf-31461.herokuapp.com/work_status
 ```
 <br/>
 
-All posts filtered by topic
+
+GET all Batches
 <br/>
 ```
-GET /posts?topic=%topic%
+https://hidden-shelf-31461.herokuapp.com/batches
 ```
 <br/>
 
-All posts filtered by title
+GET all Interests
 <br/>
 ```
-GET /posts?search=%title%
+https://hidden-shelf-31461.herokuapp.com/interests
 ```
 <br/>
+
+
+UPLOAD picture
+<br/>
+```
+https://hidden-shelf-31461.herokuapp.com/upload-profile-pic/:id
+```
+<br/>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 ## Post Response Sample
