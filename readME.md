@@ -47,6 +47,7 @@ Update user
 <br/>
 ```
 https://hidden-shelf-31461.herokuapp.com/users/update/:id
+
 ```
 <br/>
 
